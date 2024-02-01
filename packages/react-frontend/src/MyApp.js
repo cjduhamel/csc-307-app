@@ -18,7 +18,17 @@ function MyApp() {
     }, [] );
 
       function removeOneCharacter(index) {
+        
         const updated = characters.filter((character, i) => {
+          if (i === index) {
+            fetch("http://localhost:8000/users", {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(character),
+            })
+          }
           return i !== index;
         });
         setCharacters(updated);
@@ -63,11 +73,15 @@ function MyApp() {
         postUser(person)
           .then((response) => {
             if(response.status === 201) {
-              setCharacters([...characters, person])
+              return response.json();
             }else{
               console.log("Error");
             
             }})
+            .then((person) => {
+              console.log(person)
+              setCharacters([...characters, person]);
+            })
           .catch((error) => {
             console.log(error);
           })

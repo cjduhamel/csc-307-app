@@ -39,6 +39,7 @@ const addUser = (user) => {
 const deleteUser = (id) => {
   const userToDelete = findUserById(id);
   if (userToDelete === undefined) {
+    console.log("User not found");
     return;
   }
   users["users_list"] = users["users_list"].filter(
@@ -49,7 +50,7 @@ const deleteUser = (id) => {
 
 const generateID = () => {
   while (true){
-    let id = Math.floor(Math.random() * 1000000);
+    let id = String(Math.floor(Math.random() * 1000000));
     if(IDs.get(id) === undefined){
       IDs.set(id, true);
       return id;
@@ -83,12 +84,13 @@ app.post("/users", (req, res) => {
   const userToAdd = req.body;
   userToAdd.id = generateID();
   addUser(userToAdd);
-  res.status(201).send();
+  res.status(201).json(userToAdd);
 });
 
-app.delete("/users/", (req, res) => {
+app.delete("/users", (req, res) => {
   const userToDelete = req.query.id;
   if(userToDelete != undefined) {
+    console.log(userToDelete);
     deleteUser(userToDelete);
     res.send("User deleted");
   }else{
