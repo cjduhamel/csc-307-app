@@ -92,9 +92,9 @@ app.delete("/users", (req, res) => {
   if(userToDelete != undefined) {
     console.log(userToDelete);
     deleteUser(userToDelete);
-    res.send("User deleted");
+    res.status(204).send("User deleted successfully");
   }else{
-    res.send("User not found");
+    res.status(404).send("Resourse not found.");
   }
 
 });
