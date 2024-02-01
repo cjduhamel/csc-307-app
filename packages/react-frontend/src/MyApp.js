@@ -26,9 +26,9 @@ function MyApp() {
 
 
       // src/MyApp.js (a new function inside the MyApp function)
-        function updateList(person) {
-          setCharacters([...characters, person]);
-        }
+        // function updateList(person) {
+        //   setCharacters([...characters, person]);
+        // }
       return (
         <div className="container">
           <Table

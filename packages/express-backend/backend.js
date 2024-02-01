@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 
 
+var IDs = new Map();
 
 const app = express();
 const port = 8000;
@@ -46,6 +47,16 @@ const deleteUser = (id) => {
   return userToDelete;
 }
 
+const generateID = () => {
+  while (true){
+    let id = Math.floor(Math.random() * 1000000);
+    if(IDs.get(id) === undefined){
+      IDs.set(id, true);
+      return id;
+    }
+  }
+}
+
 
 app.get("/users/:id", (req, res) => {
   const id = req.params["id"]; //or req.params.id
@@ -70,6 +81,7 @@ app.get("/users/:id", (req, res) => {
 
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
+  userToAdd.id = generateID();
   addUser(userToAdd);
   res.status(201).send();
 });
@@ -108,27 +120,27 @@ app.get("/users", (req, res)=> {
 const users = {
     users_list: [
       {
-        id: "xyz789",
+        id: generateID(),
         name: "Charlie",
         job: "Janitor"
       },
       {
-        id: "abc123",
+        id: generateID(),
         name: "Mac",
         job: "Bouncer"
       },
       {
-        id: "ppp222",
+        id: generateID(),
         name: "Mac",
         job: "Professor"
       },
       {
-        id: "yat999",
+        id: generateID(),
         name: "Dee",
         job: "Aspring actress"
       },
       {
-        id: "zap555",
+        id: generateID(),
         name: "Dennis",
         job: "Bartender"
       }
