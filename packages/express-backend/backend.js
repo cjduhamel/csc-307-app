@@ -107,10 +107,13 @@ app.get("/users", (req, res)=> {
   
 
   if(name != undefined && job == undefined){
-      let result = findUserByName(name);
-      
+
+    findUserByName(name).then((result) => {
       result = { users_list: result };
       res.send(result);
+    })
+      
+      
   }
   if(name != undefined && job != undefined){
     let result = users["users_list"].filter((user) => user["name"] === name && user["job"] === job);
