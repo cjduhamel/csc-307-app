@@ -1,6 +1,7 @@
 // backend.js
 import express from "express";
 import cors from "cors";
+import user_methods from "./user-services";
 
 
 var IDs = new Map();
@@ -23,9 +24,10 @@ app.listen(port, () => {
 
 
 const findUserByName = (name) => {
-    return users["users_list"].filter(
-      (user) => user["name"] === name
-    );
+    // return users["users_list"].filter(
+    //   (user) => user["name"] === name
+    // );
+    return user_methods.getUsers(name, undefined);
 };
 
 const findUserById = (id) =>
@@ -106,6 +108,7 @@ app.get("/users", (req, res)=> {
 
   if(name != undefined && job == undefined){
       let result = findUserByName(name);
+      
       result = { users_list: result };
       res.send(result);
   }
