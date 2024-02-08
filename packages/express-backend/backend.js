@@ -1,7 +1,8 @@
 // backend.js
 import express from "express";
 import cors from "cors";
-import user_methods from "./user-services";
+
+import user_methods from "./user-services.js";
 
 
 var IDs = new Map();
@@ -71,16 +72,7 @@ app.get("/users/:id", (req, res) => {
   }
 });
   
-// app.get("/users", (req, res) => {
-//     const name = req.query.name;
-//     if (name != undefined) {
-//         let result = findUserByName(name);
-//         result = { users_list: result };
-//         res.send(result);
-//     } else {
-//         res.send(users);
-//     }
-// });
+
 
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
@@ -107,20 +99,29 @@ app.get("/users", (req, res)=> {
   
 
   if(name != undefined && job == undefined){
+    
+    user_methods.getUsers(name, undefined).then((result) => {
+      res.send({users_list: result})
+    });
+      
+      
+  }else if(name != undefined && job != undefined){
+    
+    user_methods.getUsers(name, job).then((result) => {
+        res.send({ users_list: result });
+    });
 
-    findUserByName(name).then((result) => {
-      result = { users_list: result };
-      res.send(result);
-    })
-      
-      
-  }
-  if(name != undefined && job != undefined){
-    let result = users["users_list"].filter((user) => user["name"] === name && user["job"] === job);
-    result = {users_list: result};
-    res.send(result);
+  }else if(name == undefined && job != undefined){
+    user_methods.getUsers(undefined, job).then((result) => {
+      res.send({ users_list: result })
+    });
+  
   }else{
-    res.send(users);
+    
+    user_methods.getUsers(undefined, undefined).then((result) => { 
+      res.send({ users_list: result });
+    });
+   
   
   }
 });
