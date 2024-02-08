@@ -20,8 +20,9 @@ function MyApp() {
       function removeOneCharacter(index) {
         
         const updated = characters.filter((character, i) => {
+          
           if (i === index) {
-            console.log(character._id)
+            
             fetch(`http://localhost:8000/users?id=${character._id}`, {
               method: "DELETE",
               headers: {
@@ -80,7 +81,7 @@ function MyApp() {
             
             }})
             .then((person) => {
-              console.log(person)
+              
               setCharacters([...characters, person]);
             })
           .catch((error) => {
