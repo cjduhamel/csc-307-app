@@ -21,8 +21,8 @@ function MyApp() {
         
         const updated = characters.filter((character, i) => {
           if (i === index) {
-            console.log(character.id)
-            fetch(`http://localhost:8000/users?id=${character.id}`, {
+            console.log(character._id)
+            fetch(`http://localhost:8000/users?id=${character._id}`, {
               method: "DELETE",
               headers: {
                 "Content-Type": "application/json",

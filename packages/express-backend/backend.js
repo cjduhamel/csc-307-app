@@ -64,33 +64,27 @@ const generateID = () => {
 
 app.get("/users/:id", (req, res) => {
   const id = req.params["id"]; //or req.params.id
-  let result = findUserById(id);
-  if (result === undefined) {
-    res.status(404).send("Resource not found.");
-  } else {
-    res.send(result);
-  }
+  user_methods.findUserById(id).then((result) => {
+    res.send(result)
+  }).catch(
+    res.status(404).send("Resource not found.")
+  )
 });
   
 
 
 app.post("/users", (req, res) => {
-  const userToAdd = req.body;
-  userToAdd.id = generateID();
-  addUser(userToAdd);
-  res.status(201).json(userToAdd);
+  
+  user_methods.addUser(req.body).then((result) => {
+      res.status(201).json(req.body);
+  });
 });
 
 app.delete("/users", (req, res) => {
-  const userToDelete = req.query.id;
-  if(userToDelete != undefined) {
-    console.log(userToDelete);
-    deleteUser(userToDelete);
+  user_methods.findUserByIdAndDelete(id).then((result) => {
     res.status(204).send("User deleted successfully");
-  }else{
-    res.status(404).send("Resourse not found.");
-  }
-
+  }).catch(res.status(404).send("Resourse not found."));
+  
 });
 
 app.get("/users", (req, res)=> {
